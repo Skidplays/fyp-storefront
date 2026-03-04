@@ -7,6 +7,8 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import { getAuthHeaders, getCacheOptions } from "./cookies"
 import { getRegion, retrieveRegion } from "./regions"
 import { StoreProductWithStore } from "types/global"
+import { StoreListProductReviewsQuery, StoreListProductReviewStatsQuery, StoreUpsertProductReviewsDTO } from "@lambdacurry/medusa-plugins-sdk"
+
 
 export const listProducts = async ({
   pageParam = 1,
@@ -134,4 +136,35 @@ export const listProductsWithSort = async ({
     nextPage,
     queryParams,
   }
+}
+
+export const getProductReviews = async (
+  query: Partial<StoreListProductReviewsQuery>
+) => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+  return await sdk.store.productReviews.list({
+    ...query,
+    offset: query.offset ?? 0,
+    limit: query.limit ?? 10,
+  }, headers)
+}
+
+export const getProductReviewStats = async (query: StoreListProductReviewStatsQuery = { offset: 0, limit: 10 }) => {
+  const headers = {
+      ...(await getAuthHeaders()),
+    }
+    return await sdk.store.productReviews.listStats(query, headers)
+}
+
+export const addProductReview = async (input: StoreUpsertProductReviewsDTO
+) => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+  return sdk.store.productReviews.upsert(
+    input,
+    headers
+  )
 }

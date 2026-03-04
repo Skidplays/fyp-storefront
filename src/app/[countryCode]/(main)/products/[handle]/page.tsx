@@ -1,10 +1,11 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { listProducts } from "@lib/data/products"
+import { getProductReviews, getProductReviewStats, listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
 import { HttpTypes } from "@medusajs/types"
 import { StoreProductWithStore } from "types/global"
+import { ProductReviewSection } from "@modules/products/components/product-reviews/product-review-section"
 
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
@@ -117,16 +118,34 @@ export default async function ProductPage(props: Props) {
 
   const images = getImagesForVariant(pricedProduct, selectedVariantId) || []
 
+  const { product_reviews } = await getProductReviews({ 
+    product_id: pricedProduct.id,
+    fields:
+        'id,rating,content,name,images.url,created_at,updated_at,response.content,response.created_at,response.id',
+      order: 'created_at',
+      status: ['approved'],
+   })
+
+  const { product_review_stats } = await getProductReviewStats({
+    product_id: pricedProduct.id,
+    offset: 0,
+    limit: 1
+  })
+
   if (!pricedProduct) {
     notFound()
   }
 
   return (
+    <>
     <ProductTemplate
       product={pricedProduct}
       region={region}
       countryCode={params.countryCode}
       images={images}
     />
+    <ProductReviewSection product_reviews={product_reviews} product_review_stats={product_review_stats}/>
+    </>
+
   )
 }
