@@ -21,6 +21,9 @@ importers:
       '@lambdacurry/medusa-plugins-sdk':
         specifier: ^0.0.5
         version: 0.0.5
+      '@medusajs/icons':
+        specifier: ^2.13.4
+        version: 2.13.4(react@19.0.4)
       '@medusajs/js-sdk':
         specifier: latest
         version: 2.13.4
