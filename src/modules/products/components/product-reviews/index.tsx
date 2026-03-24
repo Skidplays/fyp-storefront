@@ -18,7 +18,6 @@ export const ProductReviewsComponent: FC<ProductReviewsProps> = ({ lineItem, pro
     if (!lineItem) return null;
 
     const [editing, setEditing] = useState<boolean>(!productReview);
-    console.log(editing)
 
     return(
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">

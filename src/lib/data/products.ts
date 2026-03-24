@@ -7,7 +7,8 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import { getAuthHeaders, getCacheOptions } from "./cookies"
 import { getRegion, retrieveRegion } from "./regions"
 import { StoreProductWithStore } from "types/global"
-import { StoreListProductReviewsQuery, StoreListProductReviewStatsQuery, StoreUpsertProductReviewsDTO } from "@lambdacurry/medusa-plugins-sdk"
+import { StoreListProductReviewsQuery, StoreListProductReviewStatsQuery, 
+StoreUpsertProductReviewsDTO } from "@lambdacurry/medusa-plugins-sdk"
 
 
 export const listProducts = async ({
@@ -158,7 +159,7 @@ export const getProductReviewStats = async (query: StoreListProductReviewStatsQu
     return await sdk.store.productReviews.listStats(query, headers)
 }
 
-export const addProductReview = async (input: StoreUpsertProductReviewsDTO
+export const addProductReview = async (input: StoreUpsertProductReviewsDTO,
 ) => {
   const headers = {
     ...(await getAuthHeaders()),

@@ -28,9 +28,9 @@ export const ProductReviewForm: FC<ProductReviewFormProps> = ({
 }) => {
 const [isLoading, setIsLoading] = useState(false)
   const [showForm, setShowForm] = useState(false)
-  const [title, setTitle] = useState("")
-  const [content, setContent] = useState("")
-  const [rating, setRating] = useState(0)
+  const [content, setContent] = useState(productReview?.content || "")
+  const [rating, setRating] = useState(productReview?.rating || 0)
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (!content || !rating) {
@@ -51,7 +51,6 @@ const [isLoading, setIsLoading] = useState(false)
       }]
     }).then(() => {
       setShowForm(false)
-      setTitle("")
       setContent("")
       setRating(0)
       toast.success("Success", {
@@ -76,15 +75,6 @@ const [isLoading, setIsLoading] = useState(false)
     {showForm && (
       <div className="flex flex-col gap-y-4">
         <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
-          <div className="flex flex-col gap-y-2">
-            <Label className="txt-medium-plus text-ui-fg-base">Title (Optional)</Label>
-            <Input 
-              name="title" 
-              value={title} 
-              onChange={(e) => setTitle(e.target.value)} 
-              placeholder="Summarize your experience" 
-            />
-          </div>
           <div className="flex flex-col gap-y-2">
             <Label className="txt-medium-plus text-ui-fg-base">Review</Label>
             <Textarea 
