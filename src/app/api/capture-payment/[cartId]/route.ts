@@ -18,7 +18,7 @@ export async function GET(req: NextRequest, { params }: { params: Params }) {
   const cart = await retrieveCart(cartId)
 
   if (!cart) {
-    return NextResponse.redirect(`${origin}/${countryCode}`)
+    return NextResponse.redirect(`${origin}`)
   }
 
   const paymentSession = cart.payment_collection?.payment_sessions?.find(
@@ -32,13 +32,13 @@ export async function GET(req: NextRequest, { params }: { params: Params }) {
     !["pending", "authorized"].includes(paymentSession.status)
   ) {
     return NextResponse.redirect(
-      `${origin}/${countryCode}/cart?step=review&error=payment_failed`
+      `${origin}/cart?step=review&error=payment_failed`
     )
   }
 
   const order = await placeOrder(cartId)
 
   return NextResponse.redirect(
-    `${origin}/${countryCode}/order/${order.id}/confirmed`
+    `${origin}/order/${order.id}/confirmed`
   )
 }
